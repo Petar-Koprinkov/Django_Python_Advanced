@@ -14,6 +14,12 @@ from forumApp.posts.models import Books
 class IndexView(TimeDistrictMixin, TemplateView):
     template_name = 'forum/index.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user.username
+        context['user'] = user
+        return context
+
 
 class DashboardView(ListView, FormView):
     template_name = 'forum/dashboard.html'

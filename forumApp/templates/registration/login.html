@@ -1,0 +1,12 @@
+{% extends 'forum/common/base.html' %}
+
+{% block content %}
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+
+    <button type="submit" class="btn btn-primary ml-30">Login</button>
+        
+    <p>You don't not have registration? <a href="{% url 'register' %}">Registration</a></p>
+    </form>
+{% endblock %}
