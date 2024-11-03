@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -39,7 +40,7 @@ class DashboardView(ListView, FormView):
         return queryset
 
 
-class AddBookView(CreateView):
+class AddBookView(LoginRequiredMixin, CreateView):
     template_name = 'forum/add-book.html'
     form_class = AddBookForm
     success_url = reverse_lazy('index')
@@ -47,7 +48,7 @@ class AddBookView(CreateView):
     context_object_name = 'book'
 
 
-class EditBookView(UpdateView):
+class EditBookView(LoginRequiredMixin, UpdateView):
     template_name = 'forum/edit-page.html'
     form_class = EditBookForm
     success_url = reverse_lazy('dashboard')
@@ -61,7 +62,7 @@ class EditBookView(UpdateView):
             return modelform_factory(Books, fields=('content',))
 
 
-class DeleteBookView(DeleteView):
+class DeleteBookView(LoginRequiredMixin, DeleteView):
     context_object_name = 'book'
     model = Books
     success_url = reverse_lazy('index')
