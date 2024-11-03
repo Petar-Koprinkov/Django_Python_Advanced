@@ -74,6 +74,12 @@ TEMPLATES = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    'forumApp.accounts.authentication.EmailOrUsernameBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 WSGI_APPLICATION = 'forumApp.wsgi.application'
 
 # Database
