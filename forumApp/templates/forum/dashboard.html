@@ -9,16 +9,24 @@
     <form class="search-bar" action="{% url 'dashboard' %}" method="get">
         {{ form }}
         <button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="transparent" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai ai-Search"><path d="M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="transparent"
+                 stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai ai-Search">
+                <path d="M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z"/>
+            </svg>
         </button>
     </form>
-        <div class="container">
-            <div class="posts">
+    <div class="container">
+        <div class="posts">
             {% for book in books %}
                 <a href="{% url 'details-book' book.pk %}">
                     <div class="post">
-                        <h2>{{ book.title|capfirst }}</h2>
-
+                        <h2>{{ book.title|capfirst }}
+                            {% if not book.approved %}
+                                {% if 'posts.can_approve_posts' in request.user.get_group_permissions or request.user.has_perm %}
+                                    <a href="{% url 'approve' book.pk%}"><i class="ai-check"></i></a>
+                                {% endif %}
+                            {% endif %}
+                        </h2>
                         {% if not book.content %}
                             {% lorem 3 p %}
                         {% else %}
@@ -34,20 +42,20 @@
                 <h1>No Books</h1>
             {% endfor %}
         </div>
-        </div>
-            <div class="pagination">
+    </div>
+    <div class="pagination">
              <span class="step-links">
                  {% if page_obj.has_previous %}
                      <a href="?page=1">&laquo; first</a>
                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
                  {% endif %}
-             <span class="current">
+                 <span class="current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
              </span>
-                {% if page_obj.has_next %}
+                 {% if page_obj.has_next %}
                      <a href="?page={{ page_obj.next_page_number }}">next</a>
                      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
+                 {% endif %}
              </span>
-        </div>
+    </div>
 {% endblock %}

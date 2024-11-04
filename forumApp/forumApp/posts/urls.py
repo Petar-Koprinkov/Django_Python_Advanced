@@ -8,6 +8,7 @@ urlpatterns = [
     path('add-book/', views.AddBookView.as_view(), name='add-book'),
     path('<int:pk>/', include([
         path('', views.DetailPageView.as_view(), name='details-book'),
+        path('approve/', views.approve_post, name='approve'),
         path('delete-book/', views.DeleteBookView.as_view(), name='delete-book'),
         path('edit-book/', views.EditBookView.as_view(), name='edit-book'),
     ]))

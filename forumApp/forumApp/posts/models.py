@@ -27,11 +27,20 @@ class Books(models.Model):
         default=LanguageChoices.Other
     )
 
+    approved = models.BooleanField(
+        default=False
+    )
+
     image = models.ImageField(
         upload_to='images/',
         blank=True,
         null=True,
     )
+
+    class Meta:
+        permissions = [
+            ('can_approve_posts', 'Can approve posts'),
+        ]
 
 
 class Comments(models.Model):

@@ -9,7 +9,7 @@ from forumApp.posts.models import Books, Comments
 class BookBaseForm(forms.ModelForm):
     class Meta:
         model = Books
-        fields = '__all__'
+        exclude = ('approved', )
 
         labels = {
             'title': 'Book Title',

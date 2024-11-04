@@ -33,11 +33,22 @@ class DashboardView(ListView, FormView):
     def get_queryset(self):
         queryset = self.model.objects.all()
 
+        if not 'posts.can_approve_posts' in self.request.user.get_group_permissions() or not self.request.user.has_perm(
+                'posts.can_approve_posts'):
+            queryset = queryset.filter(approved=True)
+
         if 'title' in self.request.GET:
             query = self.request.GET.get('title')
             queryset = queryset.filter(title__icontains=query)
 
         return queryset
+
+
+def approve_post(request, pk):
+    book = Books.objects.get(pk=pk)
+    book.approved = True
+    book.save()
+    return redirect(request.META['HTTP_REFERER'])
 
 
 class AddBookView(LoginRequiredMixin, CreateView):
