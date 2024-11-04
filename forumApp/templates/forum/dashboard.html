@@ -20,10 +20,13 @@
             {% for book in books %}
                 <a href="{% url 'details-book' book.pk %}">
                     <div class="post">
-                        <h2>{{ book.title|capfirst }}
+                        <h2>
+                            {{ book.title|capfirst }}
                             {% if not book.approved %}
                                 {% if 'posts.can_approve_posts' in request.user.get_group_permissions or request.user.has_perm %}
-                                    <a href="{% url 'approve' book.pk%}"><i class="ai-check"></i></a>
+                                    <a href="{% url 'approve' book.pk %}">
+                                        <i class="ai-check"></i>
+                                    </a>
                                 {% endif %}
                             {% endif %}
                         </h2>

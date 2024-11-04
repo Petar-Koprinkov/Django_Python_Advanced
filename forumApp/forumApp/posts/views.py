@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView, DetailView
-
 from forumApp.decorators import limit_work_time
 from forumApp.posts.form_mixins import TimeDistrictMixin
 from forumApp.posts.forms import AddBookForm, DeleteBookForm, EditBookForm, SearchForm, CommentFormSet
