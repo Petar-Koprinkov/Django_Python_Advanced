@@ -6,3 +6,5 @@ class CustomUser(AbstractUser):
     points = models.IntegerField(
         default=0
     )
+
+
