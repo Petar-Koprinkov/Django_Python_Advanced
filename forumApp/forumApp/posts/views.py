@@ -55,7 +55,6 @@ class DashboardView(ListView, FormView):
         return context
 
 
-
 def approve_post(request, pk):
     book = Books.objects.get(pk=pk)
     book.approved = True
