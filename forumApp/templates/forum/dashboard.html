@@ -15,11 +15,12 @@
             </svg>
         </button>
     </form>
+    <h3 class="session">{{ entry }}</h3>
     <div class="container">
         <div class="posts">
             {% for book in books %}
                 <a href="{% url 'details-book' book.pk %}">
-                    <div class="post">
+                    <div class="times">
                         <h2>
                             {{ book.title|capfirst }}
                             {% if not book.approved %}

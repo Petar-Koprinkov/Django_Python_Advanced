@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import modelform_factory
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, ListView, FormView, CreateView, UpdateView, DeleteView, DetailView
@@ -41,6 +41,19 @@ class DashboardView(ListView, FormView):
             queryset = queryset.filter(title__icontains=query)
 
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        self.request.session['entry'] = self.request.session.get('entry', 0) + 1
+        if self.request.session['entry'] == 1:
+            entry = f'This is your first time you visit the site this week'
+        else:
+            entry = f'You have visited this site {self.request.session["entry"]} times this week'
+
+        context['entry'] = entry
+        return context
+
 
 
 def approve_post(request, pk):
