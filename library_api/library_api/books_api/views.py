@@ -26,6 +26,13 @@ class BookSetView(APIView):
     def get_book(pk: int):
         return get_object_or_404(Book, pk=pk)
 
+    @staticmethod
+    def valid_serializer(serializer):
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get(self, request, pk: int):
         book = self.get_book(pk)
         serializer = BookSerializer(book)
@@ -34,18 +41,12 @@ class BookSetView(APIView):
     def put(self, request, pk: int):
         book = self.get_book(pk)
         serializer = BookSerializer(book, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.valid_serializer(serializer)
 
     def patch(self, request, pk: int):
         book = self.get_book(pk)
         serializer = BookSerializer(book, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.valid_serializer(serializer)
 
     def delete(self, request, pk: int):
         book = self.get_book(pk)
