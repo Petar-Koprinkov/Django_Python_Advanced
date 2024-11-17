@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -21,6 +22,10 @@ class BookListView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema(
+    request=BookSerializer,
+    responses={201: BookSerializer},
+)
 class BookSetView(APIView):
     @staticmethod
     def get_book(pk: int):
