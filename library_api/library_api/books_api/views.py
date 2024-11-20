@@ -3,11 +3,14 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from library_api.books_api.models import Book
 from library_api.books_api.serializer import BookSerializer
 
 
+@extend_schema(
+    request=BookSerializer,
+    responses={201: BookSerializer, 400: BookSerializer},
+)
 class BookListView(APIView):
     def get(self, request):
         books = Book.objects.all()
@@ -24,7 +27,7 @@ class BookListView(APIView):
 
 @extend_schema(
     request=BookSerializer,
-    responses={201: BookSerializer},
+    responses={201: BookSerializer, 400: BookSerializer},
 )
 class BookSetView(APIView):
     @staticmethod
